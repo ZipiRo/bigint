@@ -7,4 +7,6 @@ I need to figure how to make it shorter.
 
 And dividing here is weird.
 
+My gole is to make this to comppletly work for integers!
+
 I played a bit with the code :)
