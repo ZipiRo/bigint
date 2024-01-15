@@ -23,38 +23,26 @@ struct bint{
 };
 
 bool bint::operator < (bint t) const{
-    if(this->numberLength > t.numberLength) return false;
-    else if(this->digits[this->numberLength] > t.digits[t.numberLength]) return false;
-    else if(this->numberLength == t.numberLength){
-        int a, b;
-        for (int i = 0; i < this->numberLength; i++){
-            a += this->digits[i];
-        }
-        for (int i = 0; i < t.numberLength; i++){
-            b += this->digits[i];
-        }
+    if(this->numberLength < t.numberLength) return true;
 
-        if(a > b) return false;
-    }
+    if(this->digits[this->numberLength] < t.digits[t.numberLength]) return true;
+    
+    if(this->numberLength == t.numberLength)
+        for (int i = t.numberLength - 1; i >= 0; i--)
+            if(this->digits[i] < t.digits[i]) return true;
 
-    return true;
+    return false;
 }
 bool bint::operator > (bint t) const{
-    if(this->numberLength < t.numberLength) return false;
-    else if(this->digits[this->numberLength] < t.digits[t.numberLength]) return false;
-    else if(this->numberLength == t.numberLength){
-        int a, b;
-        for (int i = 0; i < this->numberLength; i++){
-            a += this->digits[i];
-        }
-        for (int i = 0; i < t.numberLength; i++){
-            b += this->digits[i];
-        }
+    if(this->numberLength > t.numberLength) return true;
 
-        if(a < b) return false;
-    }
+    if(this->digits[this->numberLength] > t.digits[t.numberLength]) return true;
+    
+    if(this->numberLength == t.numberLength)
+        for (int i = t.numberLength - 1; i >= 0; i--)
+            if(this->digits[i] > t.digits[i]) return true;
 
-    return true;
+    return false;
 }
 
 bint bint::operator - (bint t) const{
