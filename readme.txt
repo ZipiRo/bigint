@@ -1,4 +1,4 @@
-By Perdun Ionut (ZipiRo)_
+By (ZipiRo)_
 
 You can: add, substract, multiply and compare the numbers.
 
