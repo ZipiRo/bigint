@@ -2,11 +2,10 @@ By Perdun Ionut (ZipiRo)_
 
 You can: add, substract, multiply and compare the numbers.
 
-Somethings don't work at the moment because,
-I need to figure how to make it shorter.
+Some things don't work at the moment.
 
-And dividing here is weird.
+And dividing is weird.
 
--My gole is to make this to work for integers-
+-My goal is to make this to work for integers-
 
 I played a bit with the code :)
