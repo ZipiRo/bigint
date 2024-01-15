@@ -1,5 +1,5 @@
 // BigNumber
-// Made by Perdun Ionut (ZipiRo)_
+// Made by (ZipiRo)_
 // Started 2024.01.14
 
 #include <iostream>
