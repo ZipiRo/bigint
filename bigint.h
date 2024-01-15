@@ -1,5 +1,5 @@
 // BigInteger
-// Made by Perdun Ionut Razvan
+// Made by Perdun Ionut
 // Started 2024.01.14
 
 #include <iostream>
