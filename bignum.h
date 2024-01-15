@@ -8,7 +8,7 @@
 struct bint{
     int numberLength = 0;
     int digits[5000];
-    bool isNegative = 0; // If negative then.... I don't know, something should happen!
+    bool isNegative = false;
 
     bool operator < (bint t) const;
     bool operator > (bint t) const;
@@ -136,6 +136,7 @@ bint bint::operator / (bint t) const{
 }
 
 std::ostream & operator << (std::ostream &out, const bint &c){
+    if(c.isNegative) out << '-';
     for(int i = c.numberLength - 1; i >= 0; i--)
         out << c.digits[i];
     
@@ -143,6 +144,12 @@ std::ostream & operator << (std::ostream &out, const bint &c){
 }
 std::istream & operator >> (std::istream &in, bint &c){
     char num[5000]; in >> num;
+    
+    if(num[0] == '-'){ 
+        c.isNegative = true; 
+        strcpy(num, num + 1); 
+    }
+
     c.numberLength = strlen(num);
 
     for(int i = 0; num[i]; i++){
@@ -150,8 +157,8 @@ std::istream & operator >> (std::istream &in, bint &c){
         n[0] = num[i];
         n[1] = '\0';
 
-        if(!isdigit(n[0]))
-            throw std::invalid_argument("not a number");
+        if(!isdigit(n[0]) && !c.isNegative)
+            throw std::invalid_argument("NAN");
 
         c.digits[c.numberLength - i - 1] = atoi(n);
     }

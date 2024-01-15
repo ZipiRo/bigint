@@ -18,7 +18,7 @@ int main(){
 
     cout << '\n'  << a << " < " << b;
     a < b ? cout << " -> True" : cout << " -> False";
-
+    
     cout << '\n' << a << " > " << b;
     a > b ? cout << " -> True" : cout << " -> False";
 
