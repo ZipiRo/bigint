@@ -23,7 +23,7 @@ struct bint{
 };
 
 bool bint::operator < (bint t) const{
-				if(this->isNegative) return true;
+    if(this->isNegative) return true;
 
     if(this->numberLength < t.numberLength) return true;
 
@@ -36,7 +36,7 @@ bool bint::operator < (bint t) const{
     return false;
 }
 bool bint::operator > (bint t) const{
-			 if(t.isNegative) return true; 
+    if(t.isNegative) return true; 
 
     if(this->numberLength > t.numberLength) return true;
 
