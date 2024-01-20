@@ -1,7 +1,3 @@
-// BigNumber
-// Made by (ZipiRo)_
-// Started 2024.01.14
-
 #include <iostream>
 #include <cstring>
 
@@ -67,7 +63,7 @@ bool bint::operator > (bint t) const{
             for (int i = t.numberLength - 1; i >= 0; i--)
                 if(this->digits[i] > t.digits[i]) return true;
     }
-    
+
     return false;
 }
 
@@ -125,6 +121,8 @@ bint bint::operator * (bint t) const{
     memset(&r, 0, sizeof(r));
 
     r.numberLength = this->numberLength + t.numberLength;
+
+    if(this->negative || t.negative) r.negative = true;
 
     for (int i = 0; i < (int)this->numberLength; i++)
         for(int j = 0; j < t.numberLength; j++)
