@@ -33,7 +33,7 @@ int main(){
     cout << '\n';
 
     cout << b << " > " << a;
-    b > a ? cout << " -> True" : cout << " -> False";*/
+    b > a ? cout << " -> True" : cout << " -> False";
     cout << '\n';
 
     system("pause");
