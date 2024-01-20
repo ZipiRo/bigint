@@ -6,9 +6,9 @@
 #include <cstring>
 
 struct bint{
-    int numberLength = 0;
-    int digits[5000];
-    bool isNegative = false;
+    int numberLength = 1;
+    int digits[5000] = {0};
+    bool negative = false;
 
     bool operator < (bint t) const;
     bool operator > (bint t) const;
@@ -23,25 +23,51 @@ struct bint{
 };
 
 bool bint::operator < (bint t) const{
-    if(this->numberLength < t.numberLength) return true;
+    if(this->negative && t.negative){
+        if(this->numberLength > t.numberLength) return true;
 
-    if(this->digits[this->numberLength] < t.digits[t.numberLength]) return true;
+        if(this->digits[this->numberLength] > t.digits[t.numberLength]) return true;
     
-    if(this->numberLength == t.numberLength)
-        for (int i = t.numberLength - 1; i >= 0; i--)
-            if(this->digits[i] < t.digits[i]) return true;
+        if(this->numberLength == t.numberLength)
+            for (int i = t.numberLength - 1; i >= 0; i--)
+                if(this->digits[i] > t.digits[i]) return true;
+    }
+    else if(this->negative) return true;
+    else if(t.negative) return false;
+    else{
+        if(this->numberLength < t.numberLength) return true;
+
+        if(this->digits[this->numberLength] < t.digits[t.numberLength]) return true;
+    
+        if(this->numberLength == t.numberLength)
+            for (int i = t.numberLength - 1; i >= 0; i--)
+                if(this->digits[i] < t.digits[i]) return true;
+    }
 
     return false;
 }
 bool bint::operator > (bint t) const{
-    if(this->numberLength > t.numberLength) return true;
+    if(this->negative && t.negative){
+        if(this->numberLength < t.numberLength) return true;
 
-    if(this->digits[this->numberLength] > t.digits[t.numberLength]) return true;
+        if(this->digits[this->numberLength] < t.digits[t.numberLength]) return true;
     
-    if(this->numberLength == t.numberLength)
-        for (int i = t.numberLength - 1; i >= 0; i--)
-            if(this->digits[i] > t.digits[i]) return true;
+        if(this->numberLength == t.numberLength)
+            for (int i = t.numberLength - 1; i >= 0; i--)
+                if(this->digits[i] < t.digits[i]) return true;
+    }
+    else if(this->negative) return false;
+    else if(t.negative) return true;
+    else{
+        if(this->numberLength > t.numberLength) return true;
 
+        if(this->digits[this->numberLength] > t.digits[t.numberLength]) return true;
+        
+        if(this->numberLength == t.numberLength)
+            for (int i = t.numberLength - 1; i >= 0; i--)
+                if(this->digits[i] > t.digits[i]) return true;
+    }
+    
     return false;
 }
 
@@ -136,7 +162,7 @@ bint bint::operator / (bint t) const{
 }
 
 std::ostream & operator << (std::ostream &out, const bint &c){
-    if(c.isNegative) out << '-';
+    if(c.negative) out << '-';
     for(int i = c.numberLength - 1; i >= 0; i--)
         out << c.digits[i];
     
@@ -146,7 +172,7 @@ std::istream & operator >> (std::istream &in, bint &c){
     char num[5000]; in >> num;
     
     if(num[0] == '-'){ 
-        c.isNegative = true; 
+        c.negative = true; 
         strcpy(num, num + 1); 
     }
 
@@ -157,7 +183,7 @@ std::istream & operator >> (std::istream &in, bint &c){
         n[0] = num[i];
         n[1] = '\0';
 
-        if(!isdigit(n[0]) && !c.isNegative)
+        if(!isdigit(n[0]) && !c.negative)
             throw std::invalid_argument("NAN");
 
         c.digits[c.numberLength - i - 1] = atoi(n);
