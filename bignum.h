@@ -73,18 +73,42 @@ bint bint::operator - (bint t) const{
 
     if(this->numberLength < t.numberLength) r.numberLength = t.numberLength;
         r.numberLength = this->numberLength;
-    int i = 0, aux = this->digits[0];
 
-    while (i <= r.numberLength){
-        if(t.digits[i] > aux){
-            r.digits[i] = (aux + 10) - t.digits[i];
-            aux = this->digits[i + 1] - 1;
-        }else{
-            r.digits[i] = aux - t.digits[i];
-            aux = this->digits[i + 1];
+    bint a;
+    
+    a.numberLength = this->numberLength;
+    for (int i = 0; i < this->numberLength; i++)
+        a.digits[i] = this->digits[i];
+    a.negative = this->negative;
+
+    if(a < t){
+        int i = 0, aux = t.digits[0];
+        while (i <= r.numberLength){
+            if(this->digits[i] > aux){
+                r.digits[i] = (aux + 10) - this->digits[i];
+                aux = t.digits[i + 1] - 1;
+            }else{
+                r.digits[i] = aux - this->digits[i];
+                aux = t.digits[i + 1];
+            }
+
+            i++;
         }
 
-        i++;
+        r.negative = true;
+    }else if(a > t){
+        int i = 0, aux = this->digits[0];
+        while (i <= r.numberLength){
+            if(t.digits[i] > aux){
+                r.digits[i] = (aux + 10) - t.digits[i];
+                aux = this->digits[i + 1] - 1;
+            }else{
+                r.digits[i] = aux - t.digits[i];
+                aux = this->digits[i + 1];
+            }
+
+            i++;
+        }
     }
 
     while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
