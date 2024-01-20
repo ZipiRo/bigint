@@ -18,8 +18,6 @@ struct bint{
     friend std::istream & operator >> (std::istream &in, const bint &c);
 };
 
-void eraseZ(bint &r);
-
 bool bint::operator < (bint t) const{
     if(this->negative && t.negative){
         if(this->numberLength > t.numberLength) return true;
@@ -89,7 +87,9 @@ bint bint::operator - (bint t) const{
         i++;
     }
 
-    eraseZ(r);
+    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
+        r.numberLength--;
+    }
 
     return r;
 }
@@ -110,7 +110,9 @@ bint bint::operator + (bint t) const{
         i++;
     }
 
-    eraseZ(r);
+    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
+        r.numberLength--;
+    }
 
     return r;
 }
@@ -132,7 +134,9 @@ bint bint::operator * (bint t) const{
         r.digits[i] %= 10; 
     }
 
-    eraseZ(r);
+    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
+        r.numberLength--;
+    }
 
     return r;
 }
@@ -188,11 +192,4 @@ std::istream & operator >> (std::istream &in, bint &c){
     }
 
     return in;
-}
-
-//Toolcode
-void eraseZ(bint &r){
-    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
-        r.numberLength--;
-    }
 }
