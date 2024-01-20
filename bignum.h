@@ -181,8 +181,6 @@ bint bint::operator / (bint t) const{
                         r.digits[i] = this->digits[i];
                 }
     }
-
-    //TO DO: figure this out
     
     return r;
 }
