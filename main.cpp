@@ -18,19 +18,22 @@ int main(){
     cout << a << " * " << b << " = " << a * b << '\n';
     cout << a << " / " << b << " = " << a / b << '\n';
     cout << b << " / " << a << " = " << b / a << '\n';
-
-    cout << '\n'  << a << " < " << b;
-    a < b ? cout << " -> True" : cout << " -> False";
     
-    cout << '\n' << a << " > " << b;
+    cout << '\n';
+    cout << a << " < " << b;
+    a < b ? cout << " -> True" : cout << " -> False";
+    cout << '\n';
+    
+    cout << a << " > " << b;
     a > b ? cout << " -> True" : cout << " -> False";
+    cout << '\n';
 
-    cout << '\n'  << b << " < " << a;
+    cout << b << " < " << a;
     b < a ? cout << " -> True" : cout << " -> False";
+    cout << '\n';
 
-    cout << '\n'  << b << " > " << a;
+    cout << b << " > " << a;
     b > a ? cout << " -> True" : cout << " -> False";
-
     cout << '\n';
 
     system("pause");

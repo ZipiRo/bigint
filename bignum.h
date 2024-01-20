@@ -101,14 +101,33 @@ bint bint::operator + (bint t) const{
         r.numberLength = this->numberLength;
     int i = 0, j = 0;
 
-    while (i <= r.numberLength){
-        r.digits[i] += this->digits[i] + t.digits[i];
+    if(this->negative && t.negative) r.negative = true;
+    else if(this->negative) {
+        int aux = this->digits[0];
 
-        r.digits[i + 1] += r.digits[i] / 10;
-        r.digits[i] %= 10; 
+        while (i <= r.numberLength){
+            if(t.digits[i] > aux){
+                r.digits[i] = (aux + 10) - t.digits[i];
+                aux = this->digits[i + 1] - 1;
+            }else{
+                r.digits[i] = aux - t.digits[i];
+                aux = this->digits[i + 1];
+            }
 
-        i++;
+            i++;
+        }
+    }else{
+        while (i <= r.numberLength){
+            r.digits[i] += this->digits[i] + t.digits[i];
+
+            r.digits[i + 1] += r.digits[i] / 10;
+            r.digits[i] %= 10; 
+
+            i++;
+        }
     }
+
+    
 
     while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
         r.numberLength--;
@@ -122,8 +141,8 @@ bint bint::operator * (bint t) const{
 
     r.numberLength = this->numberLength + t.numberLength;
 
-    if(this->negative || t.negative) r.negative = true;
-        r.negative = false;
+    if(this->negative && t.negative) r.negative = false;
+    else if(this->negative || t.negative) r.negative = true;
 
     for (int i = 0; i < (int)this->numberLength; i++)
         for(int j = 0; j < t.numberLength; j++)
