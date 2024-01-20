@@ -12,9 +12,10 @@ int main(){
 
     system("cls & color c");
 
-    cout << a << " - " << b << " = " << a - b << '\n';
-    cout << b << " - " << a << " = " << b - a << '\n';
     cout << a << " + " << b << " = " << a + b << '\n';
+    
+    /*cout << a << " - " << b << " = " << a - b << '\n';
+    cout << b << " - " << a << " = " << b - a << '\n';
     cout << a << " * " << b << " = " << a * b << '\n';
     cout << a << " / " << b << " = " << a / b << '\n';
     cout << b << " / " << a << " = " << b / a << '\n';
@@ -33,7 +34,7 @@ int main(){
     cout << '\n';
 
     cout << b << " > " << a;
-    b > a ? cout << " -> True" : cout << " -> False";
+    b > a ? cout << " -> True" : cout << " -> False";*/
     cout << '\n';
 
     system("pause");
