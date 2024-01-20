@@ -18,6 +18,8 @@ struct bint{
     friend std::istream & operator >> (std::istream &in, const bint &c);
 };
 
+void eraseZ(bint &r);
+
 bool bint::operator < (bint t) const{
     if(this->negative && t.negative){
         if(this->numberLength > t.numberLength) return true;
@@ -87,9 +89,7 @@ bint bint::operator - (bint t) const{
         i++;
     }
 
-    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
-        r.numberLength--;
-    }
+    eraseZ(r);
 
     return r;
 }
@@ -110,9 +110,7 @@ bint bint::operator + (bint t) const{
         i++;
     }
 
-    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
-        r.numberLength--;
-    }
+    eraseZ(r);
 
     return r;
 }
@@ -123,6 +121,7 @@ bint bint::operator * (bint t) const{
     r.numberLength = this->numberLength + t.numberLength;
 
     if(this->negative || t.negative) r.negative = true;
+        r.negative = false;
 
     for (int i = 0; i < (int)this->numberLength; i++)
         for(int j = 0; j < t.numberLength; j++)
@@ -132,10 +131,8 @@ bint bint::operator * (bint t) const{
         r.digits[i + 1] += r.digits[i] / 10;
         r.digits[i] %= 10; 
     }
-    
-    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
-        r.numberLength--;
-    }
+
+    eraseZ(r);
 
     return r;
 }
@@ -144,9 +141,12 @@ bint bint::operator / (bint t) const{
     bint r;
     memset(&r, 0, sizeof(r));
 
+    if(this->negative || t.negative) r.negative = true;
+        r.negative = false;
+
     if(this->numberLength == 1 || t.numberLength == 1){
-        if(this->digits[0] == 0 || t.digits[0] == 0) { r = {1, {0}}; }
-            else if(this->digits[0] == 1) { r = {1, {0}}; }
+        if(this->digits[0] == 0 || t.digits[0] == 0) { return r; }
+            else if(this->digits[0] == 1) { return r; }
                 else if(t.digits[0] == 1){
                     r.numberLength = this->numberLength;
                     for (int i = 0; i < this->numberLength; i++)
@@ -188,4 +188,11 @@ std::istream & operator >> (std::istream &in, bint &c){
     }
 
     return in;
+}
+
+//Toolcode
+void eraseZ(bint &r){
+    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
+        r.numberLength--;
+    }
 }
