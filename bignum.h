@@ -244,11 +244,10 @@ std::ostream & operator << (std::ostream &out, const bint &c){
     return out;
 }
 std::istream & operator >> (std::istream &in, bint &c){
-    char num[5005]; in >> num;
+    char num[5005]; in.getline(num, 5000);
     
     if(num[0] == '-'){ 
-        c.negative = true; 
-        strncpy(num, num + 1, strlen(num) + 2); 
+        c.negative = true; strcpy(num, num+1);
     }
 
     c.numberLength = strlen(num);
