@@ -8,6 +8,8 @@ struct bint{
 
     bool operator < (bint t) const;
     bool operator > (bint t) const;
+    bool operator == (bint t) const;
+    bool operator != (bint t) const;
     
     bint operator + (bint t) const;
     bint operator - (bint t) const;
@@ -17,6 +19,31 @@ struct bint{
     friend std::ostream & operator << (std::ostream &out, const bint &c);
     friend std::istream & operator >> (std::istream &in, const bint &c);
 };
+
+bool bint::operator == (bint t) const{
+    bool checker = false;
+    
+    if(this->numberLength != t.numberLength || t.negative || this->negative) return false;
+
+    for(int i = 0; i < this->numberLength; i++){
+        if(this->digits[i] == t.digits[i]) checker = true;
+            else return false;
+    }
+        
+    return checker;
+}
+bool bint::operator != (bint t) const{
+    bool checker = false;
+    
+    if(this->numberLength != t.numberLength || t.negative || this->negative) return true;
+
+    for(int i = 0; i < this->numberLength; i++){
+        if(this->digits[i] != t.digits[i]) checker = true;
+            else return false;
+    }
+        
+    return checker;
+}
 
 bool bint::operator < (bint t) const{
     if(this->negative && t.negative){

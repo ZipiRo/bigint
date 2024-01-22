@@ -11,7 +11,7 @@ int main(){
     cin >> a >> b;
 
     system("cls & color c");
-    
+
     cout << a << " - " << b << " = " << a - b << '\n';
     cout << b << " - " << a << " = " << b - a << '\n';
     cout << a << " + " << b << " = " << a + b << '\n';
@@ -34,6 +34,14 @@ int main(){
 
     cout << b << " > " << a;
     b > a ? cout << " -> True" : cout << " -> False";
+    cout << '\n';
+    
+    cout << a << " == " << b;
+    a == b ? cout << " -> True" : cout << " -> False";
+    cout << '\n';
+    
+    cout << a << " != " << b;
+    a != b ? cout << " -> True" : cout << " -> False";
     cout << '\n';
 
     system("pause");
