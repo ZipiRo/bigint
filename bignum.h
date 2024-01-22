@@ -3,7 +3,7 @@
 
 struct bint{
     int numberLength = 1;
-    int digits[5000] = {0};
+    int digits[5005] = {0};
     bool negative = false;
 
     bool operator < (bint t) const;
@@ -217,7 +217,7 @@ std::ostream & operator << (std::ostream &out, const bint &c){
     return out;
 }
 std::istream & operator >> (std::istream &in, bint &c){
-    char num[5000]; in >> num;
+    char num[5005]; in >> num;
     
     if(num[0] == '-'){ 
         c.negative = true; 
