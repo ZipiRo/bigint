@@ -221,7 +221,7 @@ std::istream & operator >> (std::istream &in, bint &c){
     
     if(num[0] == '-'){ 
         c.negative = true; 
-        strncpy(num, num + 1, 5000); 
+        strncpy(num, num + 1, strlen(num) + 2); 
     }
 
     c.numberLength = strlen(num);
