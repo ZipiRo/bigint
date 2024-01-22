@@ -43,6 +43,14 @@ int main(){
     cout << a << " != " << b;
     a != b ? cout << " -> True" : cout << " -> False";
     cout << '\n';
+    
+    cout << b << " == " << a;
+    b == a ? cout << " -> True" : cout << " -> False";
+    cout << '\n';
+    
+    cout << b << " != " << a;
+    b != a ? cout << " -> True" : cout << " -> False";
+    cout << '\n';
 
     system("pause");
 

@@ -244,7 +244,7 @@ std::ostream & operator << (std::ostream &out, const bint &c){
     return out;
 }
 std::istream & operator >> (std::istream &in, bint &c){
-    char num[5005]; in.getline(num, 5000);
+    char num[5005]; in >> num; num[5001] = '\0';
     
     if(num[0] == '-'){ 
         c.negative = true; strcpy(num, num+1);
