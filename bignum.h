@@ -1,232 +1,138 @@
 #include <iostream>
 #include <cstring>
 
-struct bint{
+class bint{
+    public:
     int numberLength = 1;
     int digits[5005] = {0};
     bool negative = false;
 
-    bool operator < (bint t) const;
-    bool operator > (bint t) const;
-    bool operator == (bint t) const;
-    bool operator != (bint t) const;
+    bool operator < (bint b) const;
+    bool operator > (bint b) const;
+    bool operator == (bint b) const;
+    bool operator != (bint b) const;
     
-    bint operator + (bint t) const;
-    bint operator - (bint t) const;
-    bint operator * (bint t) const;
-    bint operator / (bint t) const;
+    bint operator + (bint b) const;
+    bint operator - (bint b) const;
+    bint operator * (bint b) const;
+    bint operator / (bint b) const;
 
     friend std::ostream & operator << (std::ostream &out, const bint &c);
     friend std::istream & operator >> (std::istream &in, const bint &c);
 };
+bint add(bint a, bint b);
+bint subtract(bint a, bint b);
+bint multiply(bint a, bint b);
 
-bool bint::operator == (bint t) const{
+bool bint::operator == (bint b) const{
     bool checker = false;
     
-    if(this->numberLength != t.numberLength || t.negative || this->negative) return false;
+    if(this->numberLength != b.numberLength || b.negative || this->negative) return false;
 
     for(int i = 0; i < this->numberLength; i++){
-        if(this->digits[i] == t.digits[i]) checker = true;
+        if(this->digits[i] == b.digits[i]) checker = true;
             else return false;
     }
         
     return checker;
 }
-bool bint::operator != (bint t) const{
+bool bint::operator != (bint b) const{
     bool checker = false;
     
-    if(this->numberLength != t.numberLength || t.negative || this->negative) return true;
+    if(this->numberLength != b.numberLength || b.negative || this->negative) return true;
 
-    for(int i = 0; i < this->numberLength; i++){
-        if(this->digits[i] != t.digits[i]) checker = true;
-            else return false;
-    }
+    for(int i = 0; i < this->numberLength; i++)
+        if(this->digits[i] != b.digits[i]) checker = true;
         
     return checker;
 }
-
-bool bint::operator < (bint t) const{
-    if(this->negative && t.negative){
-        if(this->numberLength > t.numberLength) return true;
-
-        if(this->digits[this->numberLength] > t.digits[t.numberLength]) return true;
+bool bint::operator < (bint b) const{
+    if(this->negative && b.negative){
+        if(this->numberLength > b.numberLength) return true;
     
-        if(this->numberLength == t.numberLength)
-            for (int i = t.numberLength - 1; i >= 0; i--)
-                if(this->digits[i] > t.digits[i]) return true;
+        for (int i = b.numberLength - 1; i >= 0; i--)
+            if(this->digits[i] > b.digits[i]) return true;
+                else return false;
     }
     else if(this->negative) return true;
-    else if(t.negative) return false;
+    else if(b.negative) return false;
     else{
-        if(this->numberLength < t.numberLength) return true;
-
-        if(this->digits[this->numberLength] < t.digits[t.numberLength]) return true;
+        if(this->numberLength < b.numberLength) return true;
     
-        if(this->numberLength == t.numberLength)
-            for (int i = t.numberLength - 1; i >= 0; i--)
-                if(this->digits[i] < t.digits[i]) return true;
+        for (int i = b.numberLength - 1; i >= 0; i--)
+            if(this->digits[i] < b.digits[i]) return true;
+                else return false;
     }
 
     return false;
 }
-bool bint::operator > (bint t) const{
-    if(this->negative && t.negative){
-        if(this->numberLength < t.numberLength) return true;
+bool bint::operator > (bint b) const{
+    if(this->negative && b.negative){
+        if(this->numberLength < b.numberLength) return true;
 
-        if(this->digits[this->numberLength] < t.digits[t.numberLength]) return true;
-    
-        if(this->numberLength == t.numberLength)
-            for (int i = t.numberLength - 1; i >= 0; i--)
-                if(this->digits[i] < t.digits[i]) return true;
+        for (int i = b.numberLength - 1; i >= 0; i--)
+            if(this->digits[i] < b.digits[i]) return true;
+                else return false;
     }
     else if(this->negative) return false;
-    else if(t.negative) return true;
+    else if(b.negative) return true;
     else{
-        if(this->numberLength > t.numberLength) return true;
+        if(this->numberLength > b.numberLength) return true;
 
-        if(this->digits[this->numberLength] > t.digits[t.numberLength]) return true;
-        
-        if(this->numberLength == t.numberLength)
-            for (int i = t.numberLength - 1; i >= 0; i--)
-                if(this->digits[i] > t.digits[i]) return true;
+        for (int i = b.numberLength - 1; i >= 0; i--)
+            if(this->digits[i] > b.digits[i]) return true;
+                else return false;
     }
 
     return false;
 }
 
-bint bint::operator - (bint t) const{
-    bint r;
-    memset(&r, 0, sizeof(r));
-
-    if(this->numberLength < t.numberLength) r.numberLength = t.numberLength;
-        r.numberLength = this->numberLength;
-
-    bint a;
+bint bint::operator - (bint b) const{
+    bint r, a;
     
     a.numberLength = this->numberLength;
     for (int i = 0; i < this->numberLength; i++)
         a.digits[i] = this->digits[i];
     a.negative = this->negative;
 
-    if(a < t){
-        int i = 0, aux = t.digits[0];
-        while (i <= r.numberLength){
-            if(this->digits[i] > aux){
-                r.digits[i] = (aux + 10) - this->digits[i];
-                aux = t.digits[i + 1] - 1;
-            }else{
-                r.digits[i] = aux - this->digits[i];
-                aux = t.digits[i + 1];
-            }
-
-            i++;
-        }
-
-        r.negative = true;
-    }else if(a > t){
-        int i = 0, aux = this->digits[0];
-        while (i <= r.numberLength){
-            if(t.digits[i] > aux){
-                r.digits[i] = (aux + 10) - t.digits[i];
-                aux = this->digits[i + 1] - 1;
-            }else{
-                r.digits[i] = aux - t.digits[i];
-                aux = this->digits[i + 1];
-            }
-
-            i++;
-        }
-    }
-
-    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
-        r.numberLength--;
-    }
-
-    return r;
-}
-bint bint::operator + (bint t) const{
-    bint r;
-    memset(&r, 0, sizeof(r));
-
-    if(this->numberLength < t.numberLength) r.numberLength = t.numberLength;
-        r.numberLength = this->numberLength;
-    int i = 0, j = 0;
+    r = subtract(a, b);
     
-    if(this->negative && t.negative) r.negative = true;
-
-    if(this->negative && !r.negative){
-        bint a;
-        
-        a.numberLength = this->numberLength;
-        for (int i = 0; i < this->numberLength; i++)
-            a.digits[i] = this->digits[i];
-
-        t.negative = false;
-        if(a < t) r = t - a;
-        else if(a > t) { r = a - t; r.negative = true; }
-    }else if(t.negative && !r.negative){
-        bint a;
-        
-        a.numberLength = this->numberLength;
-        for (int i = 0; i < this->numberLength; i++)
-            a.digits[i] = this->digits[i];
-            
-        t.negative = false;
-        if(a < t) { r = t - a; r.negative = true; }
-        else if(a > t) r = a - t;
-    }else{
-        while (i <= r.numberLength){
-            r.digits[i] += this->digits[i] + t.digits[i];
-
-            r.digits[i + 1] += r.digits[i] / 10;
-            r.digits[i] %= 10; 
-
-            i++;
-        }
-    }
-
-    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
-        r.numberLength--;
-    }
-
     return r;
 }
-bint bint::operator * (bint t) const{
-    bint r;
-    memset(&r, 0, sizeof(r));
+bint bint::operator + (bint b) const{
+    bint r, a;
+        
+    a.numberLength = this->numberLength;
+    for (int i = 0; i < this->numberLength; i++)
+        a.digits[i] = this->digits[i];
+    a.negative = this->negative;
 
-    r.numberLength = this->numberLength + t.numberLength;
-
-    if(this->negative && t.negative) r.negative = false;
-    else if(this->negative || t.negative) r.negative = true;
-
-    for (int i = 0; i < (int)this->numberLength; i++)
-        for(int j = 0; j < t.numberLength; j++)
-            r.digits[i + j] += this->digits[i] * t.digits[j];
+    r = add(a, b);
     
-    for (int i = 0; i < r.numberLength; i++){
-        r.digits[i + 1] += r.digits[i] / 10;
-        r.digits[i] %= 10; 
-    }
-
-    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
-        r.numberLength--;
-    }
-
     return r;
 }
+bint bint::operator * (bint b) const{   
+    bint a; 
 
-bint bint::operator / (bint t) const{
+    a.numberLength = this->numberLength;
+    for (int i = 0; i < this->numberLength; i++)
+        a.digits[i] = this->digits[i];
+    a.negative = this->negative;
+
+    return multiply(a, b);
+}
+
+bint bint::operator / (bint b) const{
     bint r;
     memset(&r, 0, sizeof(r));
 
-    if(this->negative || t.negative) r.negative = true;
+    if(this->negative || b.negative) r.negative = true;
         r.negative = false;
 
-    if(this->numberLength == 1 || t.numberLength == 1){
-        if(this->digits[0] == 0 || t.digits[0] == 0) { return r; }
+    if(this->numberLength == 1 || b.numberLength == 1){
+        if(this->digits[0] == 0 || b.digits[0] == 0) { return r; }
             else if(this->digits[0] == 1) { return r; }
-                else if(t.digits[0] == 1){
+                else if(b.digits[0] == 1){
                     r.numberLength = this->numberLength;
                     for (int i = 0; i < this->numberLength; i++)
                         r.digits[i] = this->digits[i];
@@ -264,4 +170,76 @@ std::istream & operator >> (std::istream &in, bint &c){
     }
 
     return in;
+}
+
+bint add(bint a, bint b){
+    bint r;
+
+    if(a.numberLength < b.numberLength) r.numberLength = b.numberLength;
+        r.numberLength = a.numberLength;
+    int i = 0, j = 0;
+
+    while (i <= r.numberLength){
+        r.digits[i] += a.digits[i] + b.digits[i];
+
+        r.digits[i + 1] += r.digits[i] / 10;
+        r.digits[i] %= 10; 
+
+        i++;
+    }
+
+    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
+        r.numberLength--;
+    }
+
+    return r;
+}
+bint subtract(bint a, bint b){
+    bint r;
+
+    if(a.numberLength < b.numberLength) r.numberLength = b.numberLength;
+        r.numberLength = a.numberLength;
+
+    int i = 0, aux = a.digits[0];
+    while (i <= r.numberLength){
+        if(b.digits[i] > aux){
+            r.digits[i] = (aux + 10) - b.digits[i];
+            aux = a.digits[i + 1] - 1;
+        }else{
+            r.digits[i] = aux - b.digits[i];
+            aux = a.digits[i + 1];
+        }
+
+        i++;
+    }
+
+    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
+        r.numberLength--;
+    }
+
+    return r;
+}
+bint multiply(bint a, bint b){
+    bint r;
+    memset(&r, 0, sizeof(r));
+
+    r.numberLength = a.numberLength + b.numberLength;
+
+    if(a.negative && b.negative) r.negative = false;
+    else if(a.negative || b.negative) r.negative = true;
+
+    for (int i = 0; i < a.numberLength; i++)
+        for(int j = 0; j < b.numberLength; j++)
+            r.digits[i + j] += a.digits[i] * b.digits[j];
+    
+    for (int i = 0; i < r.numberLength; i++){
+        r.digits[i + 1] += r.digits[i] / 10;
+        r.digits[i] %= 10; 
+    }
+
+    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
+        r.numberLength--;
+    }
+
+    return r;
 }
