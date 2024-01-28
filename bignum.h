@@ -157,7 +157,7 @@ bool bint::operator >= (bint b) const{
     a.numberLength = this->numberLength;
     a.negative = this->negative;
 
-    if(a == b || a > b) return true;
+    if(a > b || a == b) return true;
         else return false;
 }
 bool bint::operator <= (bint b) const{
@@ -166,7 +166,7 @@ bool bint::operator <= (bint b) const{
     a.numberLength = this->numberLength;
     a.negative = this->negative;
 
-    if(a == b || a < b) return true;
+    if(a < b || a == b) return true;
         else return false;
 }
 
