@@ -88,28 +88,26 @@ bool bint::operator > (bint b) const{
 }
 
 bint bint::operator - (bint b) const{
-    bint r, a;
-    
+    bint a;  
+    for (int i = 0; i < this->numberLength; i++) a.digits[i] = this->digits[i];
     a.numberLength = this->numberLength;
-    for (int i = 0; i < this->numberLength; i++)
-        a.digits[i] = this->digits[i];
     a.negative = this->negative;
 
-    r = subtract(a, b);
+    bint r;
+    if(b > a) { r = subtract(b, a); r.negative = true; }
+    else if(a > b) { r = subtract(a, b); }
     
     return r;
 }
 bint bint::operator + (bint b) const{
-    bint r, a;
-        
+    bint a;  
+    for (int i = 0; i < this->numberLength; i++) a.digits[i] = this->digits[i];
     a.numberLength = this->numberLength;
-    for (int i = 0; i < this->numberLength; i++)
-        a.digits[i] = this->digits[i];
     a.negative = this->negative;
 
-    r = add(a, b);
     
-    return r;
+    return add(a, b);
+    
 }
 bint bint::operator * (bint b) const{   
     bint a; 
@@ -175,8 +173,7 @@ std::istream & operator >> (std::istream &in, bint &c){
 bint add(bint a, bint b){
     bint r;
 
-    if(a.numberLength < b.numberLength) r.numberLength = b.numberLength;
-        r.numberLength = a.numberLength;
+    r.numberLength = a.numberLength + b.numberLength;
     int i = 0, j = 0;
 
     while (i <= r.numberLength){
@@ -188,17 +185,14 @@ bint add(bint a, bint b){
         i++;
     }
 
-    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
-        r.numberLength--;
-    }
+    while(r.numberLength > 1 && r.digits[r.numberLength - 1] == 0) r.numberLength--;
 
     return r;
 }
 bint subtract(bint a, bint b){
     bint r;
 
-    if(a.numberLength < b.numberLength) r.numberLength = b.numberLength;
-        r.numberLength = a.numberLength;
+    r.numberLength = a.numberLength + b.numberLength;
 
     int i = 0, aux = a.digits[0];
     while (i <= r.numberLength){
@@ -213,10 +207,7 @@ bint subtract(bint a, bint b){
         i++;
     }
 
-    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
-        r.numberLength--;
-    }
-
+    while(r.numberLength > 1 && r.digits[r.numberLength - 1] == 0) r.numberLength--;
     return r;
 }
 bint multiply(bint a, bint b){
@@ -237,9 +228,7 @@ bint multiply(bint a, bint b){
         r.digits[i] %= 10; 
     }
 
-    while(r.numberLength > 1 && r.digits[r.numberLength-1] == 0){
-        r.numberLength--;
-    }
+    while(r.numberLength > 1 && r.digits[r.numberLength - 1] == 0) r.numberLength--;
 
     return r;
 }
