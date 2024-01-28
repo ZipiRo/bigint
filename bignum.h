@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstring>
 
 class bint{
     public:
@@ -65,8 +64,8 @@ bint subtract(bint a, bint b){
 }
 bint multiply(bint a, bint b){
     bint r;
-    memset(&r, 0, sizeof(r));
-
+    for (int i = 0; i < 5005; i++) r.digits[i] = 0;
+    
     r.numberLength = a.numberLength + b.numberLength;
 
     if(a.negative && b.negative) r.negative = false;
@@ -87,7 +86,7 @@ bint multiply(bint a, bint b){
 }
 bint divide(bint a, bint b){
     bint r;
-    memset(&r, 0, sizeof(r));
+    for (int i = 0; i < 5005; i++) r.digits[i] = 0;
 
     r.numberLength = a.numberLength + b.numberLength;
     int i = 0, aux = r.digits[0];
@@ -104,6 +103,11 @@ bint divide(bint a, bint b){
     // stil weird maybe never made by me
 }
 
+int stringlength(char *s){
+    int i = 0;
+    for(i; s[i]; i++);
+    return i;
+}
 
 bool bint::operator == (bint b) const{
     bool checker = false;
@@ -254,7 +258,7 @@ bint bint::operator * (bint b) const{
 }
 bint bint::operator / (bint b) const{
     bint r;
-    memset(&r, 0, sizeof(r));
+    for (int i = 0; i < 5005; i++) r.digits[i] = 0;
 
     if(this->negative || b.negative) r.negative = true;
         r.negative = false;
@@ -284,11 +288,11 @@ std::istream & operator >> (std::istream &in, bint &c){
     
     if(num[0] == '-'){ 
         c.negative = true;
-        for (int i = 0; i < 5000; i++)
+        for (int i = 0; i < 5005; i++)
             num[i] = num[i + 1];
     }
 
-    c.numberLength = strlen(num);
+    c.numberLength = stringlength(num);
 
     for(int i = 0; num[i]; i++){
         char n[3];
