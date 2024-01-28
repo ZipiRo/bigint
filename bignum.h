@@ -153,8 +153,25 @@ bint bint::operator - (bint b) const{
     a.negative = this->negative;
 
     bint r;
-    if(b > a) { r = subtract(b, a); r.negative = true; }
-    else if(a > b) { r = subtract(a, b); }
+    if(a.negative && b.negative) {
+        a.negative = b.negative = false;
+        if(a > b) {r = subtract(a, b); r.negative = true;}
+        else if(b > a) {r = subtract(b, a); r.negative = false;} 
+
+        return r;
+    }
+
+    if(a.negative){
+        a.negative = false;
+        r = add(a, b);
+        r.negative = true;
+    }else if(b.negative){
+        b.negative = false;
+        r = add(a, b);
+    }else{
+        if(b > a) { r = subtract(b, a); r.negative = true; }
+        else if(a > b) r = subtract(a, b);
+    }
     
     return r;
 }
@@ -164,9 +181,22 @@ bint bint::operator + (bint b) const{
     a.numberLength = this->numberLength;
     a.negative = this->negative;
 
-    
-    return add(a, b);
-    
+    bint r;
+    if(a.negative && b.negative) {r = add(a, b); r.negative = true; return r;}
+
+    if(a.negative){
+        a.negative = false;
+        r = subtract(a, b);
+        if(a > b) r.negative = true;
+    }else if(b.negative){
+        b.negative = false;
+        if(b > a) { r = subtract(b, a); r.negative = true; }
+        else if(a > b) r = subtract(a, b);
+    }else{
+        r = add(a, b);
+    }
+
+    return r;
 }
 bint bint::operator * (bint b) const{   
     bint a; 
