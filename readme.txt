@@ -1,12 +1,14 @@
-You can: add, substract, multiply and compare the numbers.
+Big_Number Header
 
-Some things don't work at the moment.
+Type:  bint;
 
-And dividing is weird.
+You can use negative numbers;
 
--My goal is to make this to work for integers-
-
-I played a bit with the code :)
+You can: add (+), 
+         substract (-), 
+         multiply (*), 
+         [divide (/) - still working on it],
+         compare (<, >, ==, !=, >=, <=);
 
 Started 2024.01.14
 By (ZipiRo)_
