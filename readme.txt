@@ -8,7 +8,7 @@ Type:  bint;
 You can: add (+), 
          substract (-), 
          multiply (*), 
-         [divide (/) - still working on it],
+         [divide (/) - Doable :)],
          compare (<, >, ==, !=, >=, <=),
          use negative numbers,
          use up to 5000 digits;
