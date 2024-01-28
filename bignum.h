@@ -11,6 +11,8 @@ class bint{
     bool operator > (bint b) const;
     bool operator == (bint b) const;
     bool operator != (bint b) const;
+    bool operator <= (bint b) const;
+    bool operator >= (bint b) const;
     
     bint operator + (bint b) const;
     bint operator - (bint b) const;
@@ -148,6 +150,24 @@ bool bint::operator > (bint b) const{
             else if(this->digits[i] < b.digits[i]) return false;
 
     return false;
+}
+bool bint::operator >= (bint b) const{
+    bint a;  
+    for (int i = 0; i < this->numberLength; i++) a.digits[i] = this->digits[i];
+    a.numberLength = this->numberLength;
+    a.negative = this->negative;
+
+    if(a == b || a > b) return true;
+        else return false;
+}
+bool bint::operator <= (bint b) const{
+    bint a;  
+    for (int i = 0; i < this->numberLength; i++) a.digits[i] = this->digits[i];
+    a.numberLength = this->numberLength;
+    a.negative = this->negative;
+
+    if(a == b || a < b) return true;
+        else return false;
 }
 
 bint bint::operator - (bint b) const{
