@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(){
-    system("color b");
+    system("cls & color b");
     
     bint a, b;
 

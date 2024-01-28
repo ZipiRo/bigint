@@ -111,18 +111,18 @@ bool bint::operator < (bint b) const{
     
         for (int i = b.numberLength - 1; i >= 0; i--)
             if(this->digits[i] > b.digits[i]) return true;
-                else return false;
+                else if(this->digits[i] < b.digits[i]) return false;
     }
-    else if(this->negative) return true;
-    else if(b.negative) return false;
-    else{
-        if(this->numberLength < b.numberLength) return true;
     
-        for (int i = b.numberLength - 1; i >= 0; i--)
-            if(this->digits[i] < b.digits[i]) return true;
-                else return false;
-    }
+    if(this->negative) return true;
+    else if(b.negative) return false;
 
+    if(this->numberLength < b.numberLength) return true;
+
+    for (int i = b.numberLength - 1; i >= 0; i--)
+        if(this->digits[i] < b.digits[i]) return true;
+            else if(this->digits[i] > b.digits[i]) return false;
+            
     return false;
 }
 bool bint::operator > (bint b) const{
@@ -131,17 +131,17 @@ bool bint::operator > (bint b) const{
 
         for (int i = b.numberLength - 1; i >= 0; i--)
             if(this->digits[i] < b.digits[i]) return true;
-                else return false;
+                else if(this->digits[i] > b.digits[i]) return false;
     }
-    else if(this->negative) return false;
-    else if(b.negative) return true;
-    else{
-        if(this->numberLength > b.numberLength) return true;
 
-        for (int i = b.numberLength - 1; i >= 0; i--)
-            if(this->digits[i] > b.digits[i]) return true;
-                else return false;
-    }
+    if(this->negative) return false;
+    else if(b.negative) return true;
+
+    if(this->numberLength > b.numberLength) return true;
+
+    for (int i = b.numberLength - 1; i >= 0; i--)
+        if(this->digits[i] > b.digits[i]) return true;
+            else if(this->digits[i] < b.digits[i]) return false;
 
     return false;
 }
