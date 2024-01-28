@@ -3,24 +3,24 @@
 
 class bint{
     public:
-    int numberLength = 1;
-    int digits[5005] = {0};
-    bool negative = false;
+    int numberLength = 1; // default
+    int digits[5005] = {0}; // default
+    bool negative = false; // default
 
-    bool operator < (bint b) const;
-    bool operator > (bint b) const;
-    bool operator == (bint b) const;
-    bool operator != (bint b) const;
-    bool operator <= (bint b) const;
-    bool operator >= (bint b) const;
+    bool operator < (bint b) const; // a < b
+    bool operator > (bint b) const; // a > b
+    bool operator == (bint b) const; // a == b
+    bool operator != (bint b) const; // a != b
+    bool operator <= (bint b) const; // a <= b
+    bool operator >= (bint b) const; // a >= b
     
-    bint operator + (bint b) const;
-    bint operator - (bint b) const;
-    bint operator * (bint b) const;
-    bint operator / (bint b) const;
+    bint operator + (bint b) const; // a + b
+    bint operator - (bint b) const; // a - b
+    bint operator * (bint b) const; // a * b
+    bint operator / (bint b) const; // a / b
 
-    friend std::ostream & operator << (std::ostream &out, const bint &c);
-    friend std::istream & operator >> (std::istream &in, const bint &c);
+    friend std::ostream & operator << (std::ostream &out, const bint &c); // std::cout >> a;
+    friend std::istream & operator >> (std::istream &in, const bint &c); // std::cin >> b
 };
 bint add(bint a, bint b){
     bint r;
@@ -264,7 +264,9 @@ std::istream & operator >> (std::istream &in, bint &c){
     char num[5005]; in >> num; num[5001] = '\0';
     
     if(num[0] == '-'){ 
-        c.negative = true; strcpy(num, num+1);
+        c.negative = true;
+        for (int i = 0; i < 5000; i++)
+            num[i] = num[i + 1];
     }
 
     c.numberLength = strlen(num);
