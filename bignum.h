@@ -20,14 +20,14 @@ class bint{
     bint operator / (bint b) const; // a / b
 
     friend std::ostream & operator << (std::ostream &out, const bint &c); // std::cout >> a;
-    friend std::istream & operator >> (std::istream &in, const bint &c); // std::cin >> b
+    friend std::istream & operator >> (std::istream &in, const bint &c); // std::cin >> a
 };
 
 bint add(bint a, bint b){
     bint r;
 
     r.numberLength = a.numberLength + b.numberLength;
-    int i = 0, j = 0;
+    int i = 0;
 
     while (i <= r.numberLength){
         r.digits[i] += a.digits[i] + b.digits[i];
@@ -85,6 +85,25 @@ bint multiply(bint a, bint b){
 
     return r;
 }
+bint divide(bint a, bint b){
+    bint r;
+    memset(&r, 0, sizeof(r));
+
+    r.numberLength = a.numberLength + b.numberLength;
+    int i = 0, aux = r.digits[0];
+    
+    while (i <= r.numberLength){
+
+        i++;
+    }
+    
+    while(r.numberLength > 1 && r.digits[r.numberLength - 1] == 0) r.numberLength--;
+
+    return r;
+
+    // stil weird maybe never made by me
+}
+
 
 bool bint::operator == (bint b) const{
     bool checker = false;
@@ -233,7 +252,6 @@ bint bint::operator * (bint b) const{
 
     return multiply(a, b);
 }
-
 bint bint::operator / (bint b) const{
     bint r;
     memset(&r, 0, sizeof(r));
