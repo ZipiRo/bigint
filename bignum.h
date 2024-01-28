@@ -22,6 +22,7 @@ class bint{
     friend std::ostream & operator << (std::ostream &out, const bint &c); // std::cout >> a;
     friend std::istream & operator >> (std::istream &in, const bint &c); // std::cin >> b
 };
+
 bint add(bint a, bint b){
     bint r;
 
