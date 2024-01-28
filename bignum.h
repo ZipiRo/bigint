@@ -20,9 +20,68 @@ class bint{
     friend std::ostream & operator << (std::ostream &out, const bint &c);
     friend std::istream & operator >> (std::istream &in, const bint &c);
 };
-bint add(bint a, bint b);
-bint subtract(bint a, bint b);
-bint multiply(bint a, bint b);
+bint add(bint a, bint b){
+    bint r;
+
+    r.numberLength = a.numberLength + b.numberLength;
+    int i = 0, j = 0;
+
+    while (i <= r.numberLength){
+        r.digits[i] += a.digits[i] + b.digits[i];
+
+        r.digits[i + 1] += r.digits[i] / 10;
+        r.digits[i] %= 10; 
+
+        i++;
+    }
+
+    while(r.numberLength > 1 && r.digits[r.numberLength - 1] == 0) r.numberLength--;
+
+    return r;
+}
+bint subtract(bint a, bint b){
+    bint r;
+
+    r.numberLength = a.numberLength + b.numberLength;
+
+    int i = 0, aux = a.digits[0];
+    while (i <= r.numberLength){
+        if(b.digits[i] > aux){
+            r.digits[i] = (aux + 10) - b.digits[i];
+            aux = a.digits[i + 1] - 1;
+        }else{
+            r.digits[i] = aux - b.digits[i];
+            aux = a.digits[i + 1];
+        }
+
+        i++;
+    }
+
+    while(r.numberLength > 1 && r.digits[r.numberLength - 1] == 0) r.numberLength--;
+    return r;
+}
+bint multiply(bint a, bint b){
+    bint r;
+    memset(&r, 0, sizeof(r));
+
+    r.numberLength = a.numberLength + b.numberLength;
+
+    if(a.negative && b.negative) r.negative = false;
+    else if(a.negative || b.negative) r.negative = true;
+
+    for (int i = 0; i < a.numberLength; i++)
+        for(int j = 0; j < b.numberLength; j++)
+            r.digits[i + j] += a.digits[i] * b.digits[j];
+    
+    for (int i = 0; i < r.numberLength; i++){
+        r.digits[i + 1] += r.digits[i] / 10;
+        r.digits[i] %= 10; 
+    }
+
+    while(r.numberLength > 1 && r.digits[r.numberLength - 1] == 0) r.numberLength--;
+
+    return r;
+}
 
 bool bint::operator == (bint b) const{
     bool checker = false;
@@ -168,67 +227,4 @@ std::istream & operator >> (std::istream &in, bint &c){
     }
 
     return in;
-}
-
-bint add(bint a, bint b){
-    bint r;
-
-    r.numberLength = a.numberLength + b.numberLength;
-    int i = 0, j = 0;
-
-    while (i <= r.numberLength){
-        r.digits[i] += a.digits[i] + b.digits[i];
-
-        r.digits[i + 1] += r.digits[i] / 10;
-        r.digits[i] %= 10; 
-
-        i++;
-    }
-
-    while(r.numberLength > 1 && r.digits[r.numberLength - 1] == 0) r.numberLength--;
-
-    return r;
-}
-bint subtract(bint a, bint b){
-    bint r;
-
-    r.numberLength = a.numberLength + b.numberLength;
-
-    int i = 0, aux = a.digits[0];
-    while (i <= r.numberLength){
-        if(b.digits[i] > aux){
-            r.digits[i] = (aux + 10) - b.digits[i];
-            aux = a.digits[i + 1] - 1;
-        }else{
-            r.digits[i] = aux - b.digits[i];
-            aux = a.digits[i + 1];
-        }
-
-        i++;
-    }
-
-    while(r.numberLength > 1 && r.digits[r.numberLength - 1] == 0) r.numberLength--;
-    return r;
-}
-bint multiply(bint a, bint b){
-    bint r;
-    memset(&r, 0, sizeof(r));
-
-    r.numberLength = a.numberLength + b.numberLength;
-
-    if(a.negative && b.negative) r.negative = false;
-    else if(a.negative || b.negative) r.negative = true;
-
-    for (int i = 0; i < a.numberLength; i++)
-        for(int j = 0; j < b.numberLength; j++)
-            r.digits[i + j] += a.digits[i] * b.digits[j];
-    
-    for (int i = 0; i < r.numberLength; i++){
-        r.digits[i + 1] += r.digits[i] / 10;
-        r.digits[i] %= 10; 
-    }
-
-    while(r.numberLength > 1 && r.digits[r.numberLength - 1] == 0) r.numberLength--;
-
-    return r;
 }
